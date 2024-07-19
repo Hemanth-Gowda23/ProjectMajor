@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydroponic System Monitor</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .sensor-data { display: flex; flex-wrap: wrap; justify-content: space-between; }
+        .sensor-item { width: 48%; margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hydroponic System Monitor</h1>
+        <div class="sensor-data">
+            <div class="sensor-item">
+                <h2>Temperature</h2>
+                <p id="temperature"></p>
+            </div>
+            <div class="sensor-item">
+                <h2>Humidity</h2>
+                <p id="humidity"></p>
+            </div>
+            <div class="sensor-item">
+                <h2>Water Level</h2>
+                <p id="water-level"></p>
+            </div>
+            <div class="sensor-item">
+                <h2>Nutrient A Level</h2>
+                <p id="nutrient-a"></p>
+            </div>
+            <div class="sensor-item">
+                <h2>Nutrient B Level</h2>
+                <p id="nutrient-b"></p>
+            </div>
+            <div class="sensor-item">
+                <h2>Light Status</h2>
+                <p id="light-status"></p>
+            </div>
+            <div class="sensor-item">
+                <h2>Pump Status</h2>
+                <p id="pump-status"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateSensorData() {
+            $.get('/get_sensor_data', function(data) {
+                $('#temperature').text(data.temperature + '°C');
+                $('#humidity').text(data.humidity + '%');
+                $('#water-level').text(data.water_level + '%');
+                $('#nutrient-a').text(data.nutrient_a + '%');
+                $('#nutrient-b').text(data.nutrient_b + '%');
+                $('#light-status').text(data.light_status);
+                $('#pump-status').text(data.pump_status);
+            });
+        }
+
+        $(document).ready(function() {
+            updateSensorData();
+            setInterval(updateSensorData, 5000);
+        });
+    </script>
+</body>
+</html>
